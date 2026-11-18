@@ -19,11 +19,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  generate-reports:
+  generate-and-deploy:
     runs-on: ubuntu-latest
-    outputs:
-      report-name: ${{ steps.report.outputs.name }}
-      report-time: ${{ steps.report.outputs.time }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
       - name: Checkout code
@@ -35,25 +35,24 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-          cache: 'pip'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pytest coverage
+        continue-on-error: true
 
       - name: Create reports directory
         run: |
           mkdir -p reports
           mkdir -p reports/coverage
           mkdir -p reports/analysis
-          mkdir -p reports/archive
 
       - name: Generate test coverage report
         run: |
-          coverage run -m pytest test_monitor.py 2>/dev/null || true
-          coverage html -d reports/coverage
-          coverage report > reports/coverage/summary.txt 2>&1 || true
+          python -m coverage run -m pytest test_monitor.py 2>/dev/null || true
+          python -m coverage html -d reports/coverage
+          python -m coverage report > reports/coverage/summary.txt 2>&1 || true
         continue-on-error: true
 
       - name: Create test results report
@@ -219,181 +218,6 @@ jobs:
           EOF
         continue-on-error: true
 
-      - name: Set report output
-        id: report
-        run: |
-          echo "name=reports-$(date +%Y%m%d-%H%M%S)" >> $GITHUB_OUTPUT
-          echo "time=$(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
-
-      - name: Upload reports as artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: html-reports
-          path: reports/
-        continue-on-error: true
-
-  deploy-pages:
-    needs: generate-reports
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest coverage
-
-      - name: Create reports directory
-        run: |
-          mkdir -p reports
-          mkdir -p reports/coverage
-          mkdir -p reports/analysis
-
-      - name: Generate test coverage report
-        run: |
-          coverage run -m pytest test_monitor.py 2>/dev/null || true
-          coverage html -d reports/coverage
-          coverage report > reports/coverage/summary.txt 2>&1 || true
-        continue-on-error: true
-
-      - name: Generate HTML dashboard
-        run: |
-          python << 'EOF'
-          import json
-          from datetime import datetime
-          
-          coverage_summary = "N/A"
-          try:
-              with open("reports/coverage/summary.txt", "r") as f:
-                  coverage_summary = f.read()
-          except:
-              pass
-          
-          test_results = {}
-          try:
-              with open("reports/test_results.json", "r") as f:
-                  test_results = json.load(f)
-          except:
-              pass
-          
-          html = f"""<!DOCTYPE html>
-          <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Security Analysis Reports Dashboard</title>
-              <style>
-                  * {{ margin: 0; padding: 0; box-sizing: border-box; }}
-                  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; }}
-                  .header {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
-                  .header h1 {{ font-size: 32px; margin-bottom: 10px; }}
-                  .header p {{ font-size: 14px; opacity: 0.9; }}
-                  .container {{ max-width: 1200px; margin: 30px auto; padding: 0 20px; }}
-                  .stats {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }}
-                  .stat-card {{ background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-left: 4px solid #667eea; }}
-                  .stat-number {{ font-size: 28px; font-weight: bold; color: #667eea; }}
-                  .stat-label {{ font-size: 12px; color: #666; margin-top: 8px; text-transform: uppercase; }}
-                  .section {{ background: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }}
-                  .section h2 {{ color: #333; margin-bottom: 20px; font-size: 22px; border-bottom: 2px solid #667eea; padding-bottom: 10px; }}
-                  .report-links {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }}
-                  .report-link {{ display: block; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; text-align: center; transition: transform 0.2s; }}
-                  .report-link:hover {{ transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }}
-                  .badge {{ display: inline-block; padding: 6px 12px; background: #27ae60; color: white; border-radius: 20px; font-size: 12px; font-weight: 600; margin-right: 10px; }}
-                  .badge.warning {{ background: #f39c12; }}
-                  .badge.danger {{ background: #e74c3c; }}
-                  .timestamp {{ color: #999; font-size: 12px; margin-top: 20px; text-align: center; }}
-                  .coverage-section {{ background: #f9f9f9; padding: 15px; border-radius: 8px; font-family: monospace; white-space: pre-wrap; font-size: 12px; overflow-x: auto; }}
-                  footer {{ text-align: center; padding: 20px; color: #999; font-size: 12px; border-top: 1px solid #eee; margin-top: 40px; }}
-              </style>
-          </head>
-          <body>
-              <div class="header">
-                  <h1>🔒 Security Analysis Reports</h1>
-                  <p>Multi-Agent Security Monitoring System - GitHub Pages Dashboard</p>
-              </div>
-              
-              <div class="container">
-                  <div class="stats">
-                      <div class="stat-card">
-                          <div class="stat-number">{test_results.get("tests", {}).get("total", "N/A")}</div>
-                          <div class="stat-label">Total Tests</div>
-                      </div>
-                      <div class="stat-card">
-                          <div class="stat-number" style="color: #27ae60;">{test_results.get("tests", {}).get("passed", "N/A")}</div>
-                          <div class="stat-label">Passed</div>
-                      </div>
-                      <div class="stat-card">
-                          <div class="stat-number" style="color: #e74c3c;">{test_results.get("tests", {}).get("failed", "N/A")}</div>
-                          <div class="stat-label">Failed</div>
-                      </div>
-                      <div class="stat-card">
-                          <div class="stat-number" style="color: #f39c12;">{test_results.get("coverage", {}).get("lines", "N/A")}%</div>
-                          <div class="stat-label">Code Coverage</div>
-                      </div>
-                  </div>
-                  
-                  <div class="section">
-                      <h2>📊 Available Reports</h2>
-                      <div class="report-links">
-                          <a href="coverage/index.html" class="report-link">📈 Coverage Report</a>
-                          <a href="analysis/report.html" class="report-link">🔍 Analysis Report</a>
-                          <a href="test_results.json" class="report-link">📋 Test Results (JSON)</a>
-                          <a href="coverage/summary.txt" class="report-link">📝 Coverage Summary</a>
-                      </div>
-                  </div>
-                  
-                  <div class="section">
-                      <h2>✨ Features</h2>
-                      <ul style="line-height: 1.8; color: #666;">
-                          <li><span class="badge">✓</span> Automated test coverage reports</li>
-                          <li><span class="badge">✓</span> Multi-agent security analysis</li>
-                          <li><span class="badge">✓</span> Automated HTML generation</li>
-                          <li><span class="badge">✓</span> GitHub Pages integration</li>
-                          <li><span class="badge">✓</span> Real-time updates on every push</li>
-                          <li><span class="badge">✓</span> Professional dashboard</li>
-                      </ul>
-                  </div>
-                  
-                  <div class="section">
-                      <h2>📈 Latest Test Results</h2>
-                      <p><strong>Status:</strong> <span class="badge">{test_results.get("status", "UNKNOWN")}</span></p>
-                      <p><strong>Tests:</strong> {test_results.get("tests", {}).get("passed", "N/A")} passed, {test_results.get("tests", {}).get("failed", "N/A")} failed</p>
-                      <p><strong>Coverage:</strong> {test_results.get("coverage", {}).get("lines", "N/A")}% lines, {test_results.get("coverage", {}).get("branches", "N/A")}% branches</p>
-                      <p><strong>Timestamp:</strong> {test_results.get("timestamp", "N/A")}</p>
-                  </div>
-                  
-                  <div class="section">
-                      <h2>📝 Coverage Summary</h2>
-                      <div class="coverage-section">{coverage_summary}</div>
-                  </div>
-                  
-                  <footer>
-                      <p>🔒 Multi-Agent Security Monitoring System</p>
-                      <p>Generated by GitHub Actions on {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC</p>
-                      <p><a href="https://github.com" style="color: #667eea; text-decoration: none;">GitHub</a> | <a href="https://pages.github.com" style="color: #667eea; text-decoration: none;">GitHub Pages</a></p>
-                  </footer>
-              </div>
-          </body>
-          </html>"""
-          
-          with open("reports/index.html", "w") as f:
-              f.write(html)
-          
-          print("✅ HTML dashboard generated")
-          EOF
-        continue-on-error: true
-
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -402,8 +226,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          preview: true
 
       - name: Create deployment summary
         run: |
