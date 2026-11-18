@@ -1,0 +1,343 @@
+{
+  "timestamp": "2026-11-17T11:06:09.956389Z",
+  "log_file": "C:\\Users\\kenke\\agent_code_review\\complex-application.log",
+  "analyses_run": 3,
+  "total_findings": 11,
+  "findings_by_severity": {
+    "CRITICAL": [
+      {
+        "analysis_type": "SECURITY",
+        "finding_type": "BruteForceAttack",
+        "severity": "CRITICAL",
+        "title": "Brute Force Attack Detected",
+        "description": "Multiple failed login attempts detected from single source",
+        "evidence": "15+ failed attempts in 60s window",
+        "recommended_action": "Block source IP, enforce MFA",
+        "timestamp": "2026-11-17T11:06:09.955605Z"
+      },
+      {
+        "analysis_type": "SECURITY",
+        "finding_type": "PrivilegeEscalation",
+        "severity": "CRITICAL",
+        "title": "Privilege Escalation Attempt",
+        "description": "User with lower privilege level attempted ROOT access",
+        "evidence": "Unauthorized access to /admin/settings",
+        "recommended_action": "Revoke sessions, force password reset",
+        "timestamp": "2026-11-17T11:06:09.955620Z"
+      },
+      {
+        "analysis_type": "SECURITY",
+        "finding_type": "CredentialExposure",
+        "severity": "CRITICAL",
+        "title": "AWS Credentials Exposed in Logs",
+        "description": "AWS access keys or secrets found in log entries",
+        "evidence": "Access key prefix: AKIA...",
+        "recommended_action": "Rotate credentials immediately",
+        "timestamp": "2026-11-17T11:06:09.955625Z"
+      },
+      {
+        "analysis_type": "SECURITY",
+        "finding_type": "DataIntegrity",
+        "severity": "CRITICAL",
+        "title": "Data Integrity Failure",
+        "description": "Database integrity violations detected",
+        "evidence": "234 orphaned foreign key references",
+        "recommended_action": "Halt writes, restore from backup",
+        "timestamp": "2026-11-17T11:06:09.955635Z"
+      },
+      {
+        "analysis_type": "PERFORMANCE",
+        "finding_type": "CascadingFailure",
+        "severity": "CRITICAL",
+        "title": "Cascading Infrastructure Failure",
+        "description": "Multiple critical events indicating system degradation",
+        "evidence": "5 CRITICAL events detected",
+        "recommended_action": "Activate incident response, implement circuit breakers",
+        "timestamp": "2026-11-17T11:06:09.956061Z"
+      },
+      {
+        "analysis_type": "PERFORMANCE",
+        "finding_type": "ResourceExhaustion",
+        "severity": "CRITICAL",
+        "title": "Resource Exhaustion",
+        "description": "Memory, connections, or other resources exhausted",
+        "evidence": "Resource exhaustion entries detected",
+        "recommended_action": "Scale resources or implement resource limits",
+        "timestamp": "2026-11-17T11:06:09.956076Z"
+      }
+    ],
+    "HIGH": [
+      {
+        "analysis_type": "DATA_QUALITY",
+        "finding_type": "MissingTraceIds",
+        "severity": "HIGH",
+        "title": "No Trace IDs for Distributed Tracing",
+        "description": "Log entries lack trace_id fields for correlation",
+        "evidence": "0 entries have trace_id field",
+        "recommended_action": "Add trace_id to all entries, implement distributed tracing",
+        "timestamp": "2026-11-17T11:06:09.954958Z"
+      },
+      {
+        "analysis_type": "SECURITY",
+        "finding_type": "PIIExposure",
+        "severity": "HIGH",
+        "title": "PII Exposed in Logs",
+        "description": "Email addresses and potentially personal data logged",
+        "evidence": "Email found in log entries",
+        "recommended_action": "Implement PII masking layer",
+        "timestamp": "2026-11-17T11:06:09.955639Z"
+      },
+      {
+        "analysis_type": "PERFORMANCE",
+        "finding_type": "HighErrorRate",
+        "severity": "HIGH",
+        "title": "High Error Rate Detected",
+        "description": "14 error or critical entries found",
+        "evidence": "14 ERROR/CRITICAL events",
+        "recommended_action": "Investigate error root causes",
+        "timestamp": "2026-11-17T11:06:09.956038Z"
+      },
+      {
+        "analysis_type": "PERFORMANCE",
+        "finding_type": "ServiceTimeouts",
+        "severity": "HIGH",
+        "title": "Service Timeouts Detected",
+        "description": "Services are timing out, indicating performance degradation",
+        "evidence": "Timeout entries found in logs",
+        "recommended_action": "Increase timeout thresholds or optimize services",
+        "timestamp": "2026-11-17T11:06:09.956052Z"
+      }
+    ],
+    "MEDIUM": [
+      {
+        "analysis_type": "DATA_QUALITY",
+        "finding_type": "NotStructuredFormat",
+        "severity": "MEDIUM",
+        "title": "Not Using Structured Logging Format",
+        "description": "Logs are not in JSON format for easy parsing",
+        "evidence": "0 entries in JSON format",
+        "recommended_action": "Convert to structured JSON logging",
+        "timestamp": "2026-11-17T11:06:09.955026Z"
+      }
+    ],
+    "LOW": []
+  },
+  "metrics": {
+    "critical_findings": 6,
+    "high_findings": 4,
+    "medium_findings": 1,
+    "low_findings": 0,
+    "total_duration_seconds": 0.001178741455078125,
+    "average_analysis_time": 0.000392913818359375,
+    "data_quality_score": 10.0,
+    "data_quality_risk_level": "LOW",
+    "security_risk_level": "CRITICAL",
+    "performance_score": 6.5,
+    "performance_risk_level": "CRITICAL"
+  },
+  "recommendations": [
+    {
+      "priority": "CRITICAL",
+      "finding": "BruteForceAttack",
+      "action": "Block source IP, enforce MFA"
+    },
+    {
+      "priority": "CRITICAL",
+      "finding": "PrivilegeEscalation",
+      "action": "Revoke sessions, force password reset"
+    },
+    {
+      "priority": "CRITICAL",
+      "finding": "CredentialExposure",
+      "action": "Rotate credentials immediately"
+    },
+    {
+      "priority": "CRITICAL",
+      "finding": "DataIntegrity",
+      "action": "Halt writes, restore from backup"
+    },
+    {
+      "priority": "CRITICAL",
+      "finding": "CascadingFailure",
+      "action": "Activate incident response, implement circuit breakers"
+    },
+    {
+      "priority": "CRITICAL",
+      "finding": "ResourceExhaustion",
+      "action": "Scale resources or implement resource limits"
+    },
+    {
+      "priority": "HIGH",
+      "finding": "MissingTraceIds",
+      "action": "Add trace_id to all entries, implement distributed tracing"
+    },
+    {
+      "priority": "HIGH",
+      "finding": "PIIExposure",
+      "action": "Implement PII masking layer"
+    },
+    {
+      "priority": "HIGH",
+      "finding": "HighErrorRate",
+      "action": "Investigate error root causes"
+    },
+    {
+      "priority": "HIGH",
+      "finding": "ServiceTimeouts",
+      "action": "Increase timeout thresholds or optimize services"
+    },
+    {
+      "priority": "MEDIUM",
+      "finding": "NotStructuredFormat",
+      "action": "Convert to structured JSON logging"
+    }
+  ],
+  "analyses": [
+    {
+      "analysis_type": "DATA_QUALITY",
+      "file_path": "C:\\Users\\kenke\\agent_code_review\\complex-application.log",
+      "status": "COMPLETED",
+      "findings": [
+        {
+          "analysis_type": "DATA_QUALITY",
+          "finding_type": "MissingTraceIds",
+          "severity": "HIGH",
+          "title": "No Trace IDs for Distributed Tracing",
+          "description": "Log entries lack trace_id fields for correlation",
+          "evidence": "0 entries have trace_id field",
+          "recommended_action": "Add trace_id to all entries, implement distributed tracing",
+          "timestamp": "2026-11-17T11:06:09.954958Z"
+        },
+        {
+          "analysis_type": "DATA_QUALITY",
+          "finding_type": "NotStructuredFormat",
+          "severity": "MEDIUM",
+          "title": "Not Using Structured Logging Format",
+          "description": "Logs are not in JSON format for easy parsing",
+          "evidence": "0 entries in JSON format",
+          "recommended_action": "Convert to structured JSON logging",
+          "timestamp": "2026-11-17T11:06:09.955026Z"
+        }
+      ],
+      "risk_level": "LOW",
+      "score": 10.0,
+      "duration_seconds": 0.0006451606750488281,
+      "timestamp": "2026-11-17T11:06:09.955285Z",
+      "error_message": null
+    },
+    {
+      "analysis_type": "SECURITY",
+      "file_path": "C:\\Users\\kenke\\agent_code_review\\complex-application.log",
+      "status": "COMPLETED",
+      "findings": [
+        {
+          "analysis_type": "SECURITY",
+          "finding_type": "BruteForceAttack",
+          "severity": "CRITICAL",
+          "title": "Brute Force Attack Detected",
+          "description": "Multiple failed login attempts detected from single source",
+          "evidence": "15+ failed attempts in 60s window",
+          "recommended_action": "Block source IP, enforce MFA",
+          "timestamp": "2026-11-17T11:06:09.955605Z"
+        },
+        {
+          "analysis_type": "SECURITY",
+          "finding_type": "PrivilegeEscalation",
+          "severity": "CRITICAL",
+          "title": "Privilege Escalation Attempt",
+          "description": "User with lower privilege level attempted ROOT access",
+          "evidence": "Unauthorized access to /admin/settings",
+          "recommended_action": "Revoke sessions, force password reset",
+          "timestamp": "2026-11-17T11:06:09.955620Z"
+        },
+        {
+          "analysis_type": "SECURITY",
+          "finding_type": "CredentialExposure",
+          "severity": "CRITICAL",
+          "title": "AWS Credentials Exposed in Logs",
+          "description": "AWS access keys or secrets found in log entries",
+          "evidence": "Access key prefix: AKIA...",
+          "recommended_action": "Rotate credentials immediately",
+          "timestamp": "2026-11-17T11:06:09.955625Z"
+        },
+        {
+          "analysis_type": "SECURITY",
+          "finding_type": "DataIntegrity",
+          "severity": "CRITICAL",
+          "title": "Data Integrity Failure",
+          "description": "Database integrity violations detected",
+          "evidence": "234 orphaned foreign key references",
+          "recommended_action": "Halt writes, restore from backup",
+          "timestamp": "2026-11-17T11:06:09.955635Z"
+        },
+        {
+          "analysis_type": "SECURITY",
+          "finding_type": "PIIExposure",
+          "severity": "HIGH",
+          "title": "PII Exposed in Logs",
+          "description": "Email addresses and potentially personal data logged",
+          "evidence": "Email found in log entries",
+          "recommended_action": "Implement PII masking layer",
+          "timestamp": "2026-11-17T11:06:09.955639Z"
+        }
+      ],
+      "risk_level": "CRITICAL",
+      "score": null,
+      "duration_seconds": 0.0002243518829345703,
+      "timestamp": "2026-11-17T11:06:09.955650Z",
+      "error_message": null
+    },
+    {
+      "analysis_type": "PERFORMANCE",
+      "file_path": "C:\\Users\\kenke\\agent_code_review\\complex-application.log",
+      "status": "COMPLETED",
+      "findings": [
+        {
+          "analysis_type": "PERFORMANCE",
+          "finding_type": "HighErrorRate",
+          "severity": "HIGH",
+          "title": "High Error Rate Detected",
+          "description": "14 error or critical entries found",
+          "evidence": "14 ERROR/CRITICAL events",
+          "recommended_action": "Investigate error root causes",
+          "timestamp": "2026-11-17T11:06:09.956038Z"
+        },
+        {
+          "analysis_type": "PERFORMANCE",
+          "finding_type": "ServiceTimeouts",
+          "severity": "HIGH",
+          "title": "Service Timeouts Detected",
+          "description": "Services are timing out, indicating performance degradation",
+          "evidence": "Timeout entries found in logs",
+          "recommended_action": "Increase timeout thresholds or optimize services",
+          "timestamp": "2026-11-17T11:06:09.956052Z"
+        },
+        {
+          "analysis_type": "PERFORMANCE",
+          "finding_type": "CascadingFailure",
+          "severity": "CRITICAL",
+          "title": "Cascading Infrastructure Failure",
+          "description": "Multiple critical events indicating system degradation",
+          "evidence": "5 CRITICAL events detected",
+          "recommended_action": "Activate incident response, implement circuit breakers",
+          "timestamp": "2026-11-17T11:06:09.956061Z"
+        },
+        {
+          "analysis_type": "PERFORMANCE",
+          "finding_type": "ResourceExhaustion",
+          "severity": "CRITICAL",
+          "title": "Resource Exhaustion",
+          "description": "Memory, connections, or other resources exhausted",
+          "evidence": "Resource exhaustion entries detected",
+          "recommended_action": "Scale resources or implement resource limits",
+          "timestamp": "2026-11-17T11:06:09.956076Z"
+        }
+      ],
+      "risk_level": "CRITICAL",
+      "score": 6.5,
+      "duration_seconds": 0.00030922889709472656,
+      "timestamp": "2026-11-17T11:06:09.956090Z",
+      "error_message": null
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+Error: file not found
+Warning: low disk space
+Info: system started

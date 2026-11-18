@@ -1,0 +1,37 @@
+2024-01-15T09:23:15.847Z [INFO] [AuthService] User login attempt - user_id=usr_001 email=john.doe@company.com ip=192.168.1.105
+2024-01-15T09:23:16.102Z [INFO] [AuthService] Password validation passed - user_id=usr_001
+2024-01-15T09:23:16.523Z [INFO] [TokenService] JWT token generated - user_id=usr_001 token_exp=3600
+2024-01-15T09:23:17.891Z [INFO] [DatabaseConnection] Connected to production DB - pool_size=25 active_connections=18
+2024-01-15T09:23:18.234Z [WARN] [CacheService] Cache miss rate high - miss_rate=0.45 hit_rate=0.55 avg_latency=1250ms
+2024-01-15T09:24:02.156Z [ERROR] [PaymentGateway] Payment processing failed - order_id=ord_12345 amount=USD_1500.00 error_code=GATEWAY_TIMEOUT reason="Connection timeout after 30s"
+2024-01-15T09:24:03.412Z [INFO] [RetryService] Retry attempt 1/3 for order_id=ord_12345 - scheduled_at=2024-01-15T09:24:13Z
+2024-01-15T09:24:05.678Z [WARN] [MemoryMonitor] High memory usage detected - heap_usage=87% threshold=80% jvm_process_id=8492
+2024-01-15T09:24:15.891Z [ERROR] [DatabaseConnection] Connection pool exhaustion - active_connections=25 pending_requests=12 timeout_duration=5000ms
+2024-01-15T09:24:16.234Z [CRITICAL] [PaymentGateway] Multiple payment failures detected - failures_in_5min=8 success_rate=0.12 affected_orders=8
+2024-01-15T09:24:17.567Z [INFO] [AlertService] Critical alert triggered - alert_id=ALR_9821 severity=CRITICAL incident_type=PAYMENT_SYSTEM_DOWN
+2024-01-15T09:24:18.901Z [WARN] [SecurityAudit] Suspicious login attempts detected - source_ip=203.45.123.89 attempt_count=15 timeframe=60s accounts_targeted=["admin", "support", "root"]
+2024-01-15T09:24:19.234Z [INFO] [SecurityAudit] Failed login attempt blocked - ip=203.45.123.89 account=admin reason="Brute force pattern detected"
+2024-01-15T09:24:20.567Z [ERROR] [APIGateway] Rate limit exceeded - client_id=api_key_5f4d9e2a service=PaymentAPI calls_per_minute=5001 limit=5000
+2024-01-15T09:24:21.891Z [WARN] [DataExport] Large export requested - request_id=exp_00892 record_count=500000 estimated_time=45s user_id=usr_001
+2024-01-15T09:24:23.123Z [INFO] [BackgroundJob] Nightly backup started - job_id=job_bkp_001 target=s3://company-backups/2024-01-15 estimated_duration=1800s
+2024-01-15T09:24:24.456Z [ERROR] [BackgroundJob] Backup failed - job_id=job_bkp_001 error="S3 authentication failed" access_key_id=AKIA... (truncated)
+2024-01-15T09:24:25.789Z [WARN] [EmailService] Email delivery delayed - queue_size=4523 processing_rate=150/s estimated_delay=30s
+2024-01-15T09:24:26.012Z [INFO] [AnalyticsEngine] ETL pipeline started - pipeline_id=etl_daily_001 source_table=events target_table=events_aggregated
+2024-01-15T09:24:30.345Z [ERROR] [AnalyticsEngine] ETL job failed - pipeline_id=etl_daily_001 error="Out of memory" available_memory=256MB required_memory=2048MB
+2024-01-15T09:24:31.678Z [CRITICAL] [SystemMonitor] Server CPU temperature critical - temp_celsius=89 threshold=85 location=data_center_2_rack_12
+2024-01-15T09:24:32.901Z [WARN] [LogService] Log file size approaching limit - current_size=45GB limit=50GB rotation_scheduled=2024-01-15T10:00:00Z
+2024-01-15T09:24:33.234Z [INFO] [SecurityAudit] MFA required for sensitive operation - user_id=usr_001 operation=AccessAdminPanel timestamp=2024-01-15T09:24:33Z
+2024-01-15T09:24:34.567Z [ERROR] [ValidationService] Data validation failed - record_id=rec_8823 field="email" issue="Invalid format" provided_value=john.doe@invalid_domain
+2024-01-15T09:24:35.891Z [WARN] [DeprecatedAPI] Deprecated endpoint called - endpoint=/v1/getUserData caller_ip=192.168.1.105 recommended_endpoint=/v2/users
+2024-01-15T09:24:36.123Z [INFO] [ThirdPartyIntegration] Webhook received - webhook_id=whk_7654 source=stripe event_type=charge.succeeded amount=USD_99.99
+2024-01-15T09:24:37.456Z [ERROR] [ThirdPartyIntegration] Webhook processing failed - webhook_id=whk_7654 error="Database constraint violation" retry_count=0
+2024-01-15T09:24:38.789Z [CRITICAL] [DataIntegrity] Database integrity check failed - table=users rows_checked=1000000 inconsistencies_found=234 sample_issue="Orphaned foreign key references"
+2024-01-15T09:24:39.012Z [INFO] [ReplicationService] Replication lag detected - replica_lag_seconds=45 master_db_tps=1250 replica_tps=1100
+2024-01-15T09:24:40.345Z [WARN] [SessionManager] Session timeout warnings issued - sessions_expiring_soon=892 time_to_expiry=300s
+2024-01-15T09:24:41.678Z [ERROR] [FileStorage] File upload failed - upload_id=upl_9283 file_name=report.xlsx file_size=125MB reason="Disk quota exceeded" available_space=50MB
+2024-01-15T09:24:42.901Z [INFO] [ConfigService] Configuration hot-reload triggered - config_version=v2.4.1 changed_parameters=["payment_timeout", "cache_ttl", "max_connections"]
+2024-01-15T09:24:43.234Z [CRITICAL] [SecurityAudit] Unauthorized access attempt detected - user_id=usr_001 resource=/admin/settings access_level_required=ROOT access_level_held=USER ip=192.168.1.105
+2024-01-15T09:24:44.567Z [WARN] [MetricsCollector] High cardinality metric detected - metric_name=api_response_time labels_count=15000 threshold=10000
+2024-01-15T09:24:45.891Z [INFO] [LoadBalancer] Node health check failed - node_id=server_05 endpoint=http://10.0.2.5:8080/health status_code=503 response_time=15000ms
+2024-01-15T09:24:46.123Z [ERROR] [LoadBalancer] All nodes unhealthy - healthy_nodes=0 total_nodes=5 traffic_rerouted=false incident_id=inc_001
+2024-01-15T09:24:47.456Z [CRITICAL] [ServiceDiscovery] Service registry inconsistency - service=PaymentProcessor registered_instances=3 responding_instances=1 stale_registrations=2
