@@ -139,6 +139,9 @@ jobs:
                   .timestamp {{ color: #999; font-size: 12px; margin-top: 20px; text-align: center; }}
                   .coverage-section {{ background: #f9f9f9; padding: 15px; border-radius: 8px; font-family: monospace; white-space: pre-wrap; font-size: 12px; overflow-x: auto; }}
                   footer {{ text-align: center; padding: 20px; color: #999; font-size: 12px; border-top: 1px solid #eee; margin-top: 40px; }}
+                  .cta-section {{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 30px; }}
+                  .cta-btn {{ display: inline-block; padding: 12px 30px; background: white; color: #667eea; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 10px 10px 0 0; transition: all 0.3s; }}
+                  .cta-btn:hover {{ transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }}
               </style>
           </head>
           <body>
@@ -148,6 +151,12 @@ jobs:
               </div>
               
               <div class="container">
+                  <div class="cta-section">
+                      <h2 style="margin-bottom: 15px;">Ready to Analyze Your Logs?</h2>
+                      <p style="margin-bottom: 15px; opacity: 0.95;">Upload and analyze your log files with our intelligent security monitoring system</p>
+                      <a href="./login.html" class="cta-btn">🔐 Login & Upload Logs</a>
+                  </div>
+
                   <div class="stats">
                       <div class="stat-card">
                           <div class="stat-number">{test_results.get("tests", {}).get("total", "N/A")}</div>
@@ -184,7 +193,8 @@ jobs:
                           <li><span class="badge">✓</span> Multi-agent security analysis</li>
                           <li><span class="badge">✓</span> Automated HTML generation</li>
                           <li><span class="badge">✓</span> GitHub Pages integration</li>
-                          <li><span class="badge">✓</span> Real-time updates on every push</li>
+                          <li><span class="badge">✓</span> Secure login with demo credentials</li>
+                          <li><span class="badge">✓</span> Real-time log file upload & analysis</li>
                           <li><span class="badge">✓</span> Professional dashboard</li>
                       </ul>
                   </div>
