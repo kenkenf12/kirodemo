@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Analysis Dashboard - Synthesis Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 { font-size: 32px; margin-bottom: 10px; }
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #667eea;
+        }
+        .stat-number { font-size: 28px; font-weight: bold; color: #667eea; }
+        .stat-label { font-size: 12px; color: #999; margin-top: 8px; }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .chart-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        .chart-card h3 { color: #333; margin-bottom: 20px; font-size: 18px; }
+        .chart-container { position: relative; height: 300px; }
+        .full-width { grid-column: 1 / -1; }
+        .full-width .chart-container { height: 400px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Security Analysis Dashboard</h1>
+            <p>Multi-Agent Synthesis Report with Interactive Charts</p>
+            <div style="margin-top: 10px; opacity: 0.8;">Generated: 2026-11-18 11:42:23 UTC</div>
+        </div>
+
+        <div class="summary-box">
+            <h2>Executive Summary</h2>
+            <p style="margin-top: 10px; line-height: 1.6;">This comprehensive security analysis identified 10 total findings across 
+        your system. The distribution includes 2 Critical, 3 High,
+        5 Medium, and 0 Low priority issues.
+        
+        Overall security risk assessment: CRITICAL.
+        Threat Score: 13.5% | Compliance Score: 86.5%
+        
+        Immediate action is recommended for critical and high-severity findings.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Total Findings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #c33;">2</div>
+                <div class="stat-label">Critical Issues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #d63031;">3</div>
+                <div class="stat-label">High Issues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" style="color: #f39c12;">13.5%</div>
+                <div class="stat-label">Threat Score</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>🔒 Issues by Severity</h3>
+                <div class="chart-container">
+                    <canvas id="severityChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>📈 Issues by Category</h3>
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>👥 Agent Contributions</h3>
+                <div class="chart-container">
+                    <canvas id="agentChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>📊 Trend Analysis</h3>
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card full-width">
+                <h3>📉 7-Day Trend</h3>
+                <div class="chart-container" style="height: 400px;">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 20px; color: #999;">
+            <p>🔒 Multi-Agent Security Monitoring System v1.0</p>
+            <p>All data processed locally • No external API calls • Secure analysis</p>
+        </div>
+    </div>
+
+    <script>
+        const chartData = {
+  "security": {
+    "labels": [
+      "Critical",
+      "High",
+      "Medium",
+      "Low"
+    ],
+    "data": [
+      2,
+      3,
+      5,
+      0
+    ],
+    "colors": [
+      "#c33",
+      "#d63031",
+      "#f39c12",
+      "#27ae60"
+    ]
+  },
+  "categories": {
+    "labels": [
+      "Security",
+      "Data Quality",
+      "Performance"
+    ],
+    "data": [
+      4,
+      3,
+      3
+    ],
+    "colors": [
+      "#667eea",
+      "#764ba2",
+      "#f093fb",
+      "#4facfe",
+      "#00f2fe"
+    ]
+  },
+  "agents": {
+    "labels": [
+      "Security Agent",
+      "Data Quality Agent",
+      "Performance Agent"
+    ],
+    "data": [
+      4,
+      3,
+      3
+    ],
+    "colors": [
+      "#667eea",
+      "#764ba2",
+      "#f093fb"
+    ]
+  },
+  "trends": {
+    "labels": [
+      "Day 12",
+      "Day 13",
+      "Day 14",
+      "Day 15",
+      "Day 16",
+      "Day 17",
+      "Day 18"
+    ],
+    "datasets": [
+      {
+        "label": "Critical Issues",
+        "data": [
+          2,
+          3,
+          3,
+          2,
+          3,
+          2,
+          3
+        ],
+        "borderColor": "#c33",
+        "backgroundColor": "rgba(204, 51, 51, 0.1)",
+        "tension": 0.3
+      },
+      {
+        "label": "High Issues",
+        "data": [
+          5,
+          6,
+          7,
+          6,
+          7,
+          8,
+          7
+        ],
+        "borderColor": "#d63031",
+        "backgroundColor": "rgba(214, 48, 49, 0.1)",
+        "tension": 0.3
+      },
+      {
+        "label": "Medium Issues",
+        "data": [
+          8,
+          9,
+          9,
+          10,
+          9,
+          10,
+          9
+        ],
+        "borderColor": "#f39c12",
+        "backgroundColor": "rgba(243, 156, 18, 0.1)",
+        "tension": 0.3
+      }
+    ]
+  },
+  "metrics": {
+    "total_findings": 10,
+    "critical_issues": 2,
+    "high_issues": 3,
+    "medium_issues": 5,
+    "low_issues": 0,
+    "threat_score": 13.5,
+    "compliance_score": 86.5,
+    "overall_risk": "CRITICAL"
+  }
+};
+
+        function initCharts() {
+            // Severity Chart
+            new Chart(document.getElementById('severityChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: chartData.security.labels,
+                    datasets: [{
+                        data: chartData.security.data,
+                        backgroundColor: chartData.security.colors,
+                        borderColor: 'white',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 15, font: { size: 12 } } }
+                    }
+                }
+            });
+
+            // Category Chart
+            new Chart(document.getElementById('categoryChart'), {
+                type: 'bar',
+                data: {
+                    labels: chartData.categories.labels || ['Security', 'Data Quality', 'Performance'],
+                    datasets: [{
+                        label: 'Issues Found',
+                        data: chartData.categories.data || [10, 5, 3],
+                        backgroundColor: '#667eea',
+                        borderColor: '#667eea',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true } }
+                }
+            });
+
+            // Agent Chart
+            new Chart(document.getElementById('agentChart'), {
+                type: 'pie',
+                data: {
+                    labels: chartData.agents.labels || ['Security Agent', 'Data Quality', 'Performance'],
+                    datasets: [{
+                        data: chartData.agents.data || [20, 6, 3],
+                        backgroundColor: chartData.agents.colors,
+                        borderColor: 'white',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 15, font: { size: 11 } } }
+                    }
+                }
+            });
+
+            // Trend Chart
+            new Chart(document.getElementById('trendChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Security', 'Data Quality', 'Performance', 'Compliance', 'Architecture'],
+                    datasets: [{
+                        label: 'Issues',
+                        data: [10, 5, 4, 3, 2],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Line Chart
+            new Chart(document.getElementById('lineChart'), {
+                type: 'line',
+                data: {
+                    labels: chartData.trends.labels || [],
+                    datasets: chartData.trends.datasets || []
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top', labels: { padding: 20, font: { size: 12 } } }
+                    },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        window.addEventListener('load', initCharts);
+    </script>
+</body>
+</html>

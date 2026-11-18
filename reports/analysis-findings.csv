@@ -1,0 +1,11 @@
+ID,Category,Severity,Title,Description,Impact,Remediation,Agent,Timestamp
+SEC-1,Security,high,Unauthorized Access Attempt,Potential unauthorized access detected,High,Review access logs and update permissions,Security Agent,2026-11-18T11:42:23.083700
+SEC-2,Security,critical,Web Attack Pattern,SQL injection or XSS attack pattern detected,Critical,Implement input validation and WAF rules,Security Agent,2026-11-18T11:42:23.083736
+SEC-3,Security,high,Failed Authentication,Multiple failed authentication attempts,High,Enable multi-factor authentication,Security Agent,2026-11-18T11:42:23.083743
+SEC-4,Security,critical,Web Attack Pattern,SQL injection or XSS attack pattern detected,Critical,Implement input validation and WAF rules,Security Agent,2026-11-18T11:42:23.083747
+DQ-5,Data Quality,medium,Missing Data,Required fields contain null or missing values,Medium,Add data validation rules,Data Quality Agent,2026-11-18T11:42:23.083893
+DQ-6,Data Quality,medium,Duplicate Records,Duplicate data found in database,Medium,Implement deduplication process,Data Quality Agent,2026-11-18T11:42:23.083916
+DQ-7,Data Quality,medium,Data Type Mismatch,Data type or format validation failed,Medium,Add type checking in data pipeline,Data Quality Agent,2026-11-18T11:42:23.083923
+PERF-8,Performance,medium,Query Timeout,Database query exceeded timeout threshold,Medium,Optimize query and add indexes,Performance Agent,2026-11-18T11:42:23.083992
+PERF-9,Performance,high,Memory Issue,Potential memory leak detected,High,Profile and fix memory leak,Performance Agent,2026-11-18T11:42:23.084001
+PERF-10,Performance,medium,High CPU Usage,CPU usage exceeds threshold,Medium,Optimize algorithms and parallelize,Performance Agent,2026-11-18T11:42:23.084006

@@ -1,0 +1,253 @@
+{
+  "timestamp": "2026-11-18T11:42:23.099147",
+  "summary": "This comprehensive security analysis identified 10 total findings across \n        your system. The distribution includes 2 Critical, 3 High,\n        5 Medium, and 0 Low priority issues.\n        \n        Overall security risk assessment: CRITICAL.\n        Threat Score: 13.5% | Compliance Score: 86.5%\n        \n        Immediate action is recommended for critical and high-severity findings.",
+  "metrics": {
+    "total_findings": 10,
+    "critical_issues": 2,
+    "high_issues": 3,
+    "medium_issues": 5,
+    "low_issues": 0,
+    "threat_score": 13.5,
+    "compliance_score": 86.5,
+    "overall_risk": "CRITICAL"
+  },
+  "chart_data": {
+    "security": {
+      "labels": [
+        "Critical",
+        "High",
+        "Medium",
+        "Low"
+      ],
+      "data": [
+        2,
+        3,
+        5,
+        0
+      ],
+      "colors": [
+        "#c33",
+        "#d63031",
+        "#f39c12",
+        "#27ae60"
+      ]
+    },
+    "categories": {
+      "labels": [
+        "Security",
+        "Data Quality",
+        "Performance"
+      ],
+      "data": [
+        4,
+        3,
+        3
+      ],
+      "colors": [
+        "#667eea",
+        "#764ba2",
+        "#f093fb",
+        "#4facfe",
+        "#00f2fe"
+      ]
+    },
+    "agents": {
+      "labels": [
+        "Security Agent",
+        "Data Quality Agent",
+        "Performance Agent"
+      ],
+      "data": [
+        4,
+        3,
+        3
+      ],
+      "colors": [
+        "#667eea",
+        "#764ba2",
+        "#f093fb"
+      ]
+    },
+    "trends": {
+      "labels": [
+        "Day 12",
+        "Day 13",
+        "Day 14",
+        "Day 15",
+        "Day 16",
+        "Day 17",
+        "Day 18"
+      ],
+      "datasets": [
+        {
+          "label": "Critical Issues",
+          "data": [
+            2,
+            3,
+            3,
+            2,
+            3,
+            2,
+            3
+          ],
+          "borderColor": "#c33",
+          "backgroundColor": "rgba(204, 51, 51, 0.1)",
+          "tension": 0.3
+        },
+        {
+          "label": "High Issues",
+          "data": [
+            5,
+            6,
+            7,
+            6,
+            7,
+            8,
+            7
+          ],
+          "borderColor": "#d63031",
+          "backgroundColor": "rgba(214, 48, 49, 0.1)",
+          "tension": 0.3
+        },
+        {
+          "label": "Medium Issues",
+          "data": [
+            8,
+            9,
+            9,
+            10,
+            9,
+            10,
+            9
+          ],
+          "borderColor": "#f39c12",
+          "backgroundColor": "rgba(243, 156, 18, 0.1)",
+          "tension": 0.3
+        }
+      ]
+    },
+    "metrics": {
+      "total_findings": 10,
+      "critical_issues": 2,
+      "high_issues": 3,
+      "medium_issues": 5,
+      "low_issues": 0,
+      "threat_score": 13.5,
+      "compliance_score": 86.5,
+      "overall_risk": "CRITICAL"
+    }
+  },
+  "findings": [
+    {
+      "id": "SEC-1",
+      "category": "Security",
+      "severity": "high",
+      "title": "Unauthorized Access Attempt",
+      "description": "Potential unauthorized access detected",
+      "impact": "High",
+      "remediation": "Review access logs and update permissions",
+      "agent": "Security Agent",
+      "timestamp": "2026-11-18T11:42:23.083700"
+    },
+    {
+      "id": "SEC-2",
+      "category": "Security",
+      "severity": "critical",
+      "title": "Web Attack Pattern",
+      "description": "SQL injection or XSS attack pattern detected",
+      "impact": "Critical",
+      "remediation": "Implement input validation and WAF rules",
+      "agent": "Security Agent",
+      "timestamp": "2026-11-18T11:42:23.083736"
+    },
+    {
+      "id": "SEC-3",
+      "category": "Security",
+      "severity": "high",
+      "title": "Failed Authentication",
+      "description": "Multiple failed authentication attempts",
+      "impact": "High",
+      "remediation": "Enable multi-factor authentication",
+      "agent": "Security Agent",
+      "timestamp": "2026-11-18T11:42:23.083743"
+    },
+    {
+      "id": "SEC-4",
+      "category": "Security",
+      "severity": "critical",
+      "title": "Web Attack Pattern",
+      "description": "SQL injection or XSS attack pattern detected",
+      "impact": "Critical",
+      "remediation": "Implement input validation and WAF rules",
+      "agent": "Security Agent",
+      "timestamp": "2026-11-18T11:42:23.083747"
+    },
+    {
+      "id": "DQ-5",
+      "category": "Data Quality",
+      "severity": "medium",
+      "title": "Missing Data",
+      "description": "Required fields contain null or missing values",
+      "impact": "Medium",
+      "remediation": "Add data validation rules",
+      "agent": "Data Quality Agent",
+      "timestamp": "2026-11-18T11:42:23.083893"
+    },
+    {
+      "id": "DQ-6",
+      "category": "Data Quality",
+      "severity": "medium",
+      "title": "Duplicate Records",
+      "description": "Duplicate data found in database",
+      "impact": "Medium",
+      "remediation": "Implement deduplication process",
+      "agent": "Data Quality Agent",
+      "timestamp": "2026-11-18T11:42:23.083916"
+    },
+    {
+      "id": "DQ-7",
+      "category": "Data Quality",
+      "severity": "medium",
+      "title": "Data Type Mismatch",
+      "description": "Data type or format validation failed",
+      "impact": "Medium",
+      "remediation": "Add type checking in data pipeline",
+      "agent": "Data Quality Agent",
+      "timestamp": "2026-11-18T11:42:23.083923"
+    },
+    {
+      "id": "PERF-8",
+      "category": "Performance",
+      "severity": "medium",
+      "title": "Query Timeout",
+      "description": "Database query exceeded timeout threshold",
+      "impact": "Medium",
+      "remediation": "Optimize query and add indexes",
+      "agent": "Performance Agent",
+      "timestamp": "2026-11-18T11:42:23.083992"
+    },
+    {
+      "id": "PERF-9",
+      "category": "Performance",
+      "severity": "high",
+      "title": "Memory Issue",
+      "description": "Potential memory leak detected",
+      "impact": "High",
+      "remediation": "Profile and fix memory leak",
+      "agent": "Performance Agent",
+      "timestamp": "2026-11-18T11:42:23.084001"
+    },
+    {
+      "id": "PERF-10",
+      "category": "Performance",
+      "severity": "medium",
+      "title": "High CPU Usage",
+      "description": "CPU usage exceeds threshold",
+      "impact": "Medium",
+      "remediation": "Optimize algorithms and parallelize",
+      "agent": "Performance Agent",
+      "timestamp": "2026-11-18T11:42:23.084006"
+    }
+  ],
+  "total_findings": 10
+}
